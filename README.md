@@ -19,8 +19,8 @@ Foi utilizado o dataset público **Breast Cancer Wisconsin**, disponibilizado na
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git
-   cd NOME_DO_REPOSITORIO
+   git clone https://github.com/MAntonioST/tech-challenge-fase1-ia.git
+   cd tech-challenge-fase1-ia
    ```
 
 2. **Crie e ative o ambiente virtual:**
