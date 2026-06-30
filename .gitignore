@@ -1,2 +1,39 @@
-venv/
+# ==============================================================================
+# .gitignore
+# Arquivos e pastas que não devem ser versionados no Git.
+# ==============================================================================
+
+# Python cache
 __pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Ambiente virtual
+venv/
+env/
+.venv/
+
+# Dados (podem ser grandes)
+data/*.csv
+data/*.parquet
+
+# Resultados gerados (serão recriados ao executar main.py)
+outputs/*.png
+outputs/*.csv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db

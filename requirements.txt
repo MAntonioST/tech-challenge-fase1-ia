@@ -1,0 +1,24 @@
+# ==============================================================================
+# DEPENDÊNCIAS DO PROJETO
+# Tech Challenge - Diagnóstico de Câncer de Mama
+# ==============================================================================
+#
+# Instalação: pip install -r requirements.txt
+# ==============================================================================
+
+# Manipulação de dados
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Visualização de dados
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Machine Learning
+scikit-learn>=1.3.0
+
+# Modelos avançados (boosting)
+xgboost>=2.0.0
+
+# Explicabilidade (SHAP)
+shap>=0.43.0

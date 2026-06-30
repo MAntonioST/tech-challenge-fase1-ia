@@ -1,57 +1,47 @@
-# Tech Challenge - Fase 1: Diagnóstico de Câncer de Mama com IA
+# 🩺 Tech Challenge - Diagnóstico de Câncer de Mama
 
-Este repositório contém a solução para o Tech Challenge da Fase 1 da Pós-Graduação em IA para Devs (FIAP). O objetivo do projeto é aplicar técnicas de Machine Learning para classificar diagnósticos de câncer de mama (Maligno ou Benigno) utilizando dados estruturados.
+> **Fase 1 - IA Foundations**  
+> **FIAP - Pós-Graduação em IA para DEVs**  
+> **Autor:** Marco
 
-## 📊 Sobre o Dataset
-Foi utilizado o dataset público **Breast Cancer Wisconsin**, disponibilizado nativamente pela biblioteca `scikit-learn` (originalmente do UCI Machine Learning Repository). 
-- **Características:** 569 amostras e 30 variáveis numéricas (como raio, textura, perímetro e área do tumor).
-- **Target:** `0` (Maligno) e `1` (Benigno).
-- **Qualidade:** O dataset não possui valores nulos, dispensando técnicas complexas de imputação de dados.
+---
 
-## ⚙️ Tecnologias Utilizadas
-- **Linguagem:** Python 3
-- **Manipulação de Dados:** Pandas, NumPy
-- **Visualização:** Matplotlib, Seaborn
-- **Machine Learning:** Scikit-Learn (Regressão Logística e Árvore de Decisão)
-- **Explicabilidade:** SHAP
+## 📋 Descrição
 
-## 🚀 Como Executar o Projeto
+Este projeto implementa um sistema de **Machine Learning** para apoiar o diagnóstico de câncer de mama, classificando tumores como **malignos** ou **benignos**. A solução utiliza o dataset público **Breast Cancer Wisconsin** e aplica técnicas de classificação supervisionada, análise exploratória, pré-processamento com `sklearn.pipeline` e explicabilidade com **SHAP**.
 
-1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/MAntonioST/tech-challenge-fase1-ia.git
-   cd tech-challenge-fase1-ia
-   ```
+> ⚠️ **Nota importante:** este sistema é uma ferramenta de apoio à decisão médica. O diagnóstico final sempre deve ser confirmado por um profissional de saúde qualificado.
 
-2. **Crie e ative o ambiente virtual:**
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # Linux/Mac
-   # ou venv\Scripts\activate no Windows
-   ```
+---
 
-3. **Instale as dependências:**
-   ```bash
-   pip install pandas numpy matplotlib seaborn scikit-learn shap
-   ```
+## 🎯 Objetivo
 
-4. **Execute o pipeline principal:**
-   ```bash
-   python tech_challenge_fase1.py
-   ```
-   *Nota: O script irá pausar a execução para exibir os gráficos de análise e explicabilidade. Feche a janela de cada gráfico para que o código continue rodando.*
+Construir a base de um sistema de IA para processamento de dados médicos relacionados à saúde feminina, aplicando fundamentos de:
+- Análise Exploratória de Dados (EDA)
+- Pré-processamento de dados
+- Modelagem preditiva com múltiplos algoritmos
+- Avaliação com métricas adequadas
+- Explicabilidade de modelos (Feature Importance + SHAP)
 
-## 📈 Resultados Obtidos
-Foram treinados dois modelos preditivos com os seguintes resultados na base de teste (20% dos dados):
+---
 
-- **Regressão Logística:**
-  - Acurácia: 97.37%
-  - Recall: 98.59%
-  - F1-Score: 97.90%
+## 📦 Dataset
 
-- **Árvore de Decisão:**
-  - Acurácia: 94.74%
-  - Recall: 95.77%
-  - F1-Score: 95.77%
+**Breast Cancer Wisconsin (Diagnostic)**  
+- Origem: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic))
+- Disponível via: `scikit-learn.datasets.load_breast_cancer`
+- Registros: 569 amostras
+- Features: 30 características numéricas extraídas de imagens de tumores
+- Target: 0 = Maligno, 1 = Benigno
 
-A Regressão Logística apresentou o melhor desempenho geral. A explicabilidade do modelo foi garantida através da extração de *Feature Importance* e da geração de gráficos *SHAP values*, permitindo entender o impacto de cada variável na decisão final do algoritmo.
+Também disponível no Kaggle: [Breast Cancer Wisconsin Data](https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data/data)
+
+---
+
+## 🚀 Como executar
+
+### 1. Clone o repositório
+
+```bash
+git clone <URL_DO_REPOSITORIO>
+cd diagnostico-cancer
