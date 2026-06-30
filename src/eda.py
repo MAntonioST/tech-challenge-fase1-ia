@@ -27,12 +27,17 @@ def plot_class_distribution(df: pd.DataFrame) -> None:
 
     plt.figure(figsize=(8, 5))
     ax = sns.countplot(
-        x='diagnostico',
-        data=df,
-        palette=['#e74c3c', '#2ecc71'],  # Vermelho para maligno, verde para benigno
-        edgecolor='black',
-        linewidth=1.2
-    )
+    x='diagnostico',
+    hue='diagnostico',
+    data=df,
+    palette=['#c0392b', '#27ae60'],
+    legend=False
+)
+
+    # Personaliza os rótulos do eixo X
+    ax.set_xticklabels(['0 - Maligno', '1 - Benigno'])
+
+
 
     # Adiciona rótulos nas barras
     for i, (classe, label) in enumerate([(0, 'Maligno'), (1, 'Benigno')]):

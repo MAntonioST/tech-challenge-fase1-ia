@@ -17,5 +17,5 @@ Tech Challenge - Diagnóstico de Câncer de Mama.
 
 Fase 1 - IA Foundations - FIAP.
 
-Autor: Marco.
+Autor: Marco Antonio Teixeira.
 """

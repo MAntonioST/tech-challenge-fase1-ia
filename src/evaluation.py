@@ -56,7 +56,6 @@ def evaluate_all(
     for nome, modelo in models.items():
         y_pred = modelo.predict(X_test)
 
-        # Probabilidades para ROC-AUC (só se o modelo suportar)
         y_proba = (
             modelo.predict_proba(X_test)[:, 1]
             if hasattr(modelo, 'predict_proba')
@@ -76,18 +75,15 @@ def evaluate_all(
 
         results.append(metrics)
 
-        # Exibe resultados individualmente
         logger.info(f"\n--- {nome} ---")
         for k, v in metrics.items():
             if k != 'Modelo':
                 logger.info(f"  {k}: {v:.4f}")
 
-        # Classification report detalhado
         logger.info(f"\n  Classification Report:\n{classification_report(y_test, y_pred)}")
 
     df_results = pd.DataFrame(results).set_index('Modelo').round(4)
 
-    # Identifica o melhor modelo pelo F1-Score
     best_model = df_results['F1-Score'].idxmax()
     best_f1 = df_results['F1-Score'].max()
     logger.info(f"\n🏆 Melhor modelo: {best_model} (F1-Score: {best_f1:.4f})")
@@ -102,13 +98,10 @@ def plot_confusion_matrices(
 ) -> None:
     """
     Gera e salva matriz de confusão para todos os modelos, lado a lado.
-
-    Args:
-        models: Dicionário {nome: modelo_treinado}.
-        X_test: Features de teste.
-        y_test: Target de teste.
     """
     logger.info("Gerando matrizes de confusão...")
+
+    plt.close('all')  # ✅ Limpa qualquer figura residual
 
     n_models = len(models)
     fig, axes = plt.subplots(1, n_models, figsize=(5 * n_models, 4))
@@ -139,58 +132,79 @@ def plot_confusion_matrices(
     plt.suptitle('Matrizes de Confusão - Todos os Modelos', fontsize=14, fontweight='bold', y=1.02)
     plt.tight_layout()
 
-    _save_and_close('matrizes_confusao.png')
+    _save_and_close('matrizes_confusao.png', fig=fig)  # ✅ Passa a figura
 
 
 def plot_metrics_comparison(df_results: pd.DataFrame) -> None:
     """
     Gera gráfico de barras comparando as métricas entre os modelos.
+    Usa matplotlib direto (sem df.plot) para controle total do posicionamento.
 
     Args:
         df_results: DataFrame com métricas (índice = nome do modelo).
     """
     logger.info("Gerando gráfico comparativo de métricas...")
 
+    plt.close('all')  # ✅ Limpa qualquer figura residual
+
     fig, ax = plt.subplots(figsize=(10, 6))
 
-    df_results.plot(
-        kind='bar',
-        ax=ax,
-        edgecolor='black',
-        linewidth=0.8,
-        colormap='Set2'
-    )
+    n_models = len(df_results)
+    n_metrics = len(df_results.columns)
+    x = np.arange(n_models)
+    width = 0.8 / n_metrics  # Largura proporcional ao número de métricas
+
+    # ✅ Cores distintas garantidas via seaborn
+    colors = sns.color_palette('Set2', n_colors=n_metrics)
+
+    # ✅ Cada métrica é uma série de barras com posição calculada
+    for i, (metrica, color) in enumerate(zip(df_results.columns, colors)):
+        offset = (i - n_metrics / 2 + 0.5) * width
+        bars = ax.bar(
+            x + offset,
+            df_results[metrica],
+            width,
+            label=metrica,
+            color=color,
+            edgecolor='black',
+            linewidth=0.5
+        )
+        # Rótulos nas barras
+        ax.bar_label(bars, fmt='%.3f', fontsize=8, padding=2)
 
     ax.set_title('Comparação de Métricas entre Modelos', fontsize=14, fontweight='bold', pad=15)
     ax.set_xlabel('Modelo', fontsize=12)
     ax.set_ylabel('Valor da Métrica', fontsize=12)
     ax.set_ylim(0.85, 1.01)
+    ax.set_xticks(x)
+    ax.set_xticklabels(df_results.index, rotation=0)
     ax.legend(loc='lower right', fontsize=10)
     ax.grid(axis='y', alpha=0.3)
 
-    # Adiciona valores nas barras
-    for container in ax.containers:
-        ax.bar_label(container, fmt='%.3f', fontsize=8, padding=3)
-
-    # Linha de referência 95%
+    # Linha de referência 95% — posição dinâmica
     ax.axhline(y=0.95, color='red', linestyle='--', alpha=0.5, linewidth=1)
-    ax.text(ax.get_xlim()[1] - 0.3, 0.952, '95%', color='red', fontsize=9, alpha=0.7)
+    ax.text(n_models - 0.4, 0.952, '95%', color='red', fontsize=9, alpha=0.7)
 
-    plt.xticks(rotation=0)
     plt.tight_layout()
 
-    _save_and_close('comparacao_metricas.png')
+    _save_and_close('comparacao_metricas.png', fig=fig)  # ✅ Passa a figura
     logger.info("Gráfico comparativo salvo.")
 
 
-def _save_and_close(filename: str, dpi: int = 150) -> None:
+def _save_and_close(filename: str, dpi: int = 150, fig=None) -> None:
     """
-    Salva o gráfico atual e fecha a figura.
+    Salva o gráfico atual e fecha a figura corretamente.
 
     Args:
         filename: Nome do arquivo.
         dpi: Resolução da imagem.
+        fig: Figura específica a ser fechada (evita fechar a figura errada).
     """
     filepath = OUTPUT_DIR / filename
-    plt.savefig(filepath, dpi=dpi, bbox_inches='tight', facecolor='white')
-    plt.close()
+
+    if fig is not None:
+        fig.savefig(filepath, dpi=dpi, bbox_inches='tight', facecolor='white')
+        plt.close(fig)
+    else:
+        plt.savefig(filepath, dpi=dpi, bbox_inches='tight', facecolor='white')
+        plt.close()
